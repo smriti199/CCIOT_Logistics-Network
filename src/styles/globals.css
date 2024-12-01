@@ -19,3 +19,9 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+* {
+  @apply box-border;
+  margin: 0;
+  padding: 0;
+}
