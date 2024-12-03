@@ -8,6 +8,8 @@ export default function AssetCard({
   countryCode,
   exportStatus,
   dutyCycle,
+  cumulative_latency,
+  avg_latency
 }) {
   // Parse the location string (assuming it's a JSON string)
   let longitude = '';
@@ -64,6 +66,18 @@ export default function AssetCard({
       <div className="mt-4">
         <h4 className="font-semibold text-gray-900">Duty Cycle:</h4>
         <p className="text-gray-800">{dutyCycle}%</p>
+      </div>
+
+      {/* Cumulative Latency */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Cumulative Latency:</h4>
+        <p className="text-gray-800">{cumulative_latency ? cumulative_latency.toFixed(2) : 'N/A'}</p>
+      </div>
+
+      {/* Average Latency */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Average Latency:</h4>
+        <p className="text-gray-800">{avg_latency ? avg_latency.toFixed(2) : 'N/A'}</p>
       </div>
     </div>
   );

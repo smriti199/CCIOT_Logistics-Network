@@ -29,7 +29,9 @@ export default function Assets() {
               updateCount={asset.update_count}
               countryCode={asset.country_code}
               exportStatus={asset.export}
-              dutyCycle={asset.duty_cycle || 0}
+              dutyCycle={asset.duty_cycle}
+              cumulative_latency={asset.cumulative_latency}
+              avg_latency={asset.avg_latency || 0}
             />
           )) : <p>Loading assets...</p>}
         </div>

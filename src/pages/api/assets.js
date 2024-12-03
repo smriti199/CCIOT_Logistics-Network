@@ -6,7 +6,7 @@ const pool = mysql.createPool({
   host: 'a9ce700e2283447668b04449a19ba784-889059d6801beaad.elb.ap-southeast-1.amazonaws.com',
   user: 'root',                         // Your MySQL user
   password: 'xM2809@coolcat',            // Your MySQL password
-  database: "us_region_v1",
+  database: "sg_region_v1",
   port: 80,                           // MySQL default port
   connectTimeout: 60000,                // Set timeout to 30 seconds
   waitForConnections: true,             // Allow waiting for idle connections in the pool
@@ -17,10 +17,10 @@ const pool = mysql.createPool({
 // Handler function for /api/assets
 export default async function handler(req, res) {
   try {
-    // Query to get all assets data from the database
-    pool.query('SELECT vehicle_id, location, motion, update_count, country_code, export, duty_cycle FROM vehicles_data', (error, results) => {
+    // Query to get all assets data including cumulative_latency and avg_latency
+    pool.query('SELECT vehicle_id, location, motion, update_count, country_code, export, duty_cycle, cumulative_latency, avg_latency FROM vehicles_data', (error, results) => {
       if (error) {
-        console.error('Error executing query:', error); // Log the error
+        console.error('Error executing query:', error);
         return res.status(500).json({ error: 'Database query failed', details: error.message });
       }
 
