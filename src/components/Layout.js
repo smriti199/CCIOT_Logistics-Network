@@ -19,8 +19,8 @@ export default function Layout({ children }) {
           <li className={isActive("/assets") ? "text-blue-500 font-bold" : ""}>
             <Link href="/assets">Assets</Link>
           </li>
-          <li className={isActive("/analytics") ? "text-blue-500 font-bold" : ""}>
-            <Link href="/analytics">Analytics</Link>
+          <li className={isActive("/table") ? "text-blue-500 font-bold" : ""}>
+            <Link href="/table">Table</Link>
           </li>
         </ul>
       </div>

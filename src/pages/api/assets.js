@@ -6,7 +6,7 @@ const pool = mysql.createPool({
   host: 'a9ce700e2283447668b04449a19ba784-889059d6801beaad.elb.ap-southeast-1.amazonaws.com',
   user: 'root',                         // Your MySQL user
   password: 'xM2809@coolcat',            // Your MySQL password
-  database: "sg_region_v1",
+  database: "us_region_v1",
   port: 80,                           // MySQL default port
   connectTimeout: 60000,                // Set timeout to 30 seconds
   waitForConnections: true,             // Allow waiting for idle connections in the pool
