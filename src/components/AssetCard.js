@@ -1,15 +1,70 @@
-export default function AssetCard({ vehicleId, location, motionStatus }) {
-    return (
-      <div className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center">
-        <div>
-          <h3 className="text-xl font-semibold text-gray-800">Asset ID: {vehicleId}</h3>
-          <p className="text-gray-600">Location: {location}</p>
-          <p className={`text-lg ${motionStatus === "moving" ? "text-green-600" : "text-red-600"}`}>
-            Status: {motionStatus}
-          </p>
-        </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg">View Details</button>
-      </div>
-    );
+import Link from "next/link";
+
+export default function AssetCard({
+  vehicleId,
+  location,
+  motion,
+  updateCount,
+  countryCode,
+  exportStatus,
+  dutyCycle,
+}) {
+  // Parse the location string (assuming it's a JSON string)
+  let longitude = '';
+  let latitude = '';
+  try {
+    const locationData = JSON.parse(location);
+    longitude = locationData.longitude;
+    latitude = locationData.latitude;
+  } catch (error) {
+    console.error('Error parsing location data:', error);
+    longitude = 'N/A';
+    latitude = 'N/A';
   }
-  
+
+  // Handle motion and exportStatus as booleans (or at least ensure proper comparison)
+  const motionStatus = motion === 'true' || motion === true ? 'Moving' : 'Stationary';
+  const exportStatusText = exportStatus === 'true' || exportStatus === true ? 'Exported' : 'Not Exported';
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h3 className="text-xl font-semibold text-gray-900">Asset ID: {vehicleId}</h3>
+      <p className="text-sm text-gray-800">Country: {countryCode}</p>
+
+      {/* Location */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Location:</h4>
+        <p className="text-gray-800">Longitude: {longitude}</p>
+        <p className="text-gray-800">Latitude: {latitude}</p>
+      </div>
+
+      {/* Motion Status */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Motion Status:</h4>
+        <p className={motionStatus === 'Moving' ? 'text-green-800' : 'text-red-800'}>
+          {motionStatus}
+        </p>
+      </div>
+
+      {/* Export Status */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Export Status:</h4>
+        <p className={exportStatusText === 'Exported' ? 'text-green-800' : 'text-red-800'}>
+          {exportStatusText}
+        </p>
+      </div>
+
+      {/* Update Count */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Update Count:</h4>
+        <p className="text-gray-800">{updateCount}</p>
+      </div>
+
+      {/* Duty Cycle */}
+      <div className="mt-4">
+        <h4 className="font-semibold text-gray-900">Duty Cycle:</h4>
+        <p className="text-gray-800">{dutyCycle}%</p>
+      </div>
+    </div>
+  );
+}

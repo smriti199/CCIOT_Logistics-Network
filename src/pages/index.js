@@ -1,62 +1,72 @@
+//src/pages/index.js
 import Layout from "../components/Layout";
 import AssetCard from "../components/AssetCard";
+import Navbar from "../components/Navbar";
 import ChartComponent from "../components/ChartComponent";
 import { useState, useEffect } from "react";
 
 export default function Home() {
   const [assets, setAssets] = useState([]);
   const [motionData, setMotionData] = useState([]);
-  const [updateData, setUpdateData] = useState([]);
+  const [exportData, setExportData] = useState({ exported: 0, notExported: 0 });
+  const [avgDutyCycle, setAvgDutyCycle] = useState(0);
+  const [totalUpdates, setTotalUpdates] = useState(0);
 
-  // API
   useEffect(() => {
     const fetchAssets = async () => {
-      // Replace this with actual API from Xue Min
-      const response = await fetch("/api/assets"); 
+      const response = await fetch("/api/assets");
       const data = await response.json();
       setAssets(data);
-    };
 
-    const fetchAnalyticsData = () => {
-      // Simulated data for checking Chartjs
-      setMotionData([
-        { date: "2023-01-01", count: 5 },
-        { date: "2023-01-02", count: 10 },
-        { date: "2023-01-03", count: 15 },
-        { date: "2023-01-04", count: 7 },
-        { date: "2023-01-05", count: 20 },
-      ]);
-      setUpdateData([
-        { vehicleId: "1234", updateCount: 5 },
-        { vehicleId: "5678", updateCount: 12 },
-        { vehicleId: "9101", updateCount: 8 },
-      ]);
+      // analytics data
+      setMotionData(data.motionData);
+      setExportData(data.exportData);
+      setAvgDutyCycle(data.avgDutyCycle);
+      setTotalUpdates(data.totalUpdates);
     };
 
     fetchAssets();
-    fetchAnalyticsData();
   }, []);
 
   return (
     <Layout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">IoT Asset Tracking Dashboard</h1>
-        <p className="text-lg text-gray-600">I hope we do well.</p>
+        <Navbar />
+        <h1 className="text-3xl font-bold text-white mb-6">Welcome to the IoT Asset Tracking Dashboard</h1>
+        <p className="text-lg text-gray-100">Here you can track assets, view analytics, and manage the system.</p>
+
+        {/* Analytics Charts */}
+        <ChartComponent motionData={motionData} exportData={exportData} />
+
+        {/* Displaying the Duty Cycle and Update Count */}
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold text-white mb-4">Additional Analytics</h2>
+          <p><strong>Average Duty Cycle:</strong> {avgDutyCycle}%</p>
+          <p><strong>Total Updates:</strong> {totalUpdates}</p>
+        </div>
 
         {/* Asset Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {assets.map((asset) => (
-            <AssetCard
-              key={asset.vehicleId}
-              vehicleId={asset.vehicleId}
-              location={asset.location}
-              motionStatus={asset.motionStatus}
-            />
-          ))}
+        {assets.length > 0 ? (
+          assets.map((asset) => {
+            console.log(asset); // Debug log to verify each asset's structure
+            return (
+              <AssetCard
+                key={asset.vehicle_id}
+                vehicleId={asset.vehicle_id}
+                location={asset.location}
+                motion={asset.motion}
+                updateCount={asset.update_count}
+                countryCode={asset.country_code}
+                exportStatus={asset.export}
+                dutyCycle={asset.duty_cycle || 0}
+              />
+            );
+          })
+        ) : (
+          <p>Loading assets...</p>
+        )}
         </div>
-
-        {/* Analytics Charts */}
-        <ChartComponent motionData={motionData} updateData={updateData} />
       </div>
     </Layout>
   );

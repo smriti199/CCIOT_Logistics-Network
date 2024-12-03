@@ -1,15 +1,23 @@
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import Link from "next/link";
 
 export default function Layout({ children }) {
   return (
-    <div className="flex flex-col h-screen">
-      <Navbar />
-      <div className="flex flex-1">
-        <Sidebar />
-        <main className="flex-1 bg-gray-100 p-6 overflow-auto">
-          {children}
-        </main>
+    <div className="flex">
+      <div className="w-64 bg-white text-gray-800 p-6">
+        <ul className="mt-8 space-y-4">
+          <li>
+            <Link href="/">Dashboard</Link>
+          </li>
+          <li>
+            <Link href="/assets">Assets</Link>
+          </li>
+          <li>
+            <Link href="/analytics">Analytics</Link>
+          </li>
+        </ul>
+      </div>
+      <div className="flex-1 p-6">
+        {children}
       </div>
     </div>
   );
