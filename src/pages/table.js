@@ -17,7 +17,7 @@ export default function Table() {
   return (
     <Layout>
       <div className="space-y-6">
-        <h1 className="text-3xl font-bold text-white mb-6">Assets</h1>
+        <h1 className="text-3xl font-bold text-white mb-6">Vehicles Data</h1>
         <p className="text-lg text-gray-100 mb-6">Here are the details of all tracked assets.</p>
 
         {/* Card-style container for table */}
