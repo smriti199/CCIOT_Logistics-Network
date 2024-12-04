@@ -18,13 +18,19 @@ export default function Layout({ children }) {
           </li>
           
           <li className={isActive("/table") ? "text-blue-500 font-bold" : ""}>
-            <Link href="/table">Table</Link>
+            <Link href="/table">Table (Version 1)</Link>
+          </li>
+          <li className={isActive("/tablev2") ? "text-blue-500 font-bold" : ""}>
+            <Link href="/tablev2">Table (Version 2)</Link>
           </li>
           <li className={isActive("/stats") ? "text-blue-500 font-bold" : ""}>
             <Link href="/stats">Stats</Link>
           </li>
           <li className={isActive("/centralized") ? "text-blue-500 font-bold" : ""}>
-            <Link href="/centralized">Centralized</Link>
+            <Link href="/centralized">Centralized Version 1</Link>
+          </li>
+          <li className={isActive("/centralizedv2") ? "text-blue-500 font-bold" : ""}>
+            <Link href="/centralizedv2">Centralized Version 2</Link>
           </li>
         </ul>
       </div>

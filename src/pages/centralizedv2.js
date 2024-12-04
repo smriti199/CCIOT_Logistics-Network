@@ -8,7 +8,7 @@ export default function Centralized() {
   // Fetch centralized data based on selected country
   useEffect(() => {
     const fetchAssets = async () => {
-      const url = `/api/v1/assets/centralizedv2?country=${selectedCountry}`;
+      const url = `/api/v2/assets/centralizedv2?country=${selectedCountry}`;
       try {
         const response = await fetch(url);
         const data = await response.json();

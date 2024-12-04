@@ -12,10 +12,10 @@ export default function Table() {
 
     const url =
       selectedDatabase === "us"
-        ? "/api/v1/assets/us"
+        ? "/api/v2/assets/us"
         : selectedDatabase === "sg"
-        ? "/api/v1/assets/sg"
-        : "/api/v1/assets/centralized";
+        ? "/api/v2/assets/sg"
+        : "/api/v2/assets/centralized";
 
     try {
       const response = await fetch(url);
@@ -55,25 +55,25 @@ export default function Table() {
     <Layout>
       <div className="space-y-6">
         <h1 className="text-3xl font-bold text-white mb-6">Vehicles Data</h1>
-        <p className="text-lg text-gray-100 mb-6">Here are the details of all tracked assets in Version 1.</p>
+        <p className="text-lg text-gray-100 mb-6">Here are the details of all tracked assets in Version 2.</p>
 
         {/* Reset Buttons */}
         <div className="mb-4">
           <button
             className="mr-4 px-4 py-2 bg-red-200 text-gray-800 rounded"
-            onClick={() => handleReset("/api/v1/resetAssets/us")}
+            onClick={() => handleReset("/api/v2/resetAssets/us")}
           >
             Reset US Database
           </button>
           <button
             className="mr-4 px-4 py-2 bg-red-200 text-gray-800 rounded"
-            onClick={() => handleReset("/api/v1/resetAssets/sg")}
+            onClick={() => handleReset("/api/v2/resetAssets/sg")}
           >
             Reset SG Database
           </button>
           <button
             className="px-4 py-2 bg-red-200 text-gray-800 rounded"
-            onClick={() => handleReset("/api/v1/resetAssets/centralized")}
+            onClick={() => handleReset("/api/v2/resetAssets/centralized")}
           >
             Reset Centralized Database
           </button>
@@ -85,9 +85,9 @@ export default function Table() {
           onChange={handleDatabaseChange}
           className="mb-4 p-2 bg-white rounded text-gray-800"
         >
-          <option value="us">US Database Version 1</option>
-          <option value="sg">SG Database Version 1</option>
-          <option value="centralized">Centralized Database Version 1</option>
+          <option value="us">US Database Version 2</option>
+          <option value="sg">SG Database Version 2</option>
+          <option value="centralized">Centralized Database Version 2</option>
         </select>
 
         {/* Card-style container for table */}
