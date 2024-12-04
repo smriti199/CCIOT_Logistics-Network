@@ -13,15 +13,17 @@ export default function Home() {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("/api/assets");
+      const response = await fetch("/api/assets/us.js");
       const data = await response.json();
       setAssets(data);
 
+      /*
       // analytics data
       setMotionData(data.motionData);
       setExportData(data.exportData);
       setAvgDutyCycle(data.avgDutyCycle);
       setTotalUpdates(data.totalUpdates);
+      */
     };
 
     fetchAssets();
@@ -50,11 +52,9 @@ export default function Home() {
               <AssetCard
                 key={asset.vehicle_id}
                 vehicleId={asset.vehicle_id}
-                location={asset.location}
                 motion={asset.motion}
                 updateCount={asset.update_count}
                 countryCode={asset.country_code}
-                exportStatus={asset.export}
                 dutyCycle={asset.duty_cycle || 0}
               />
             );

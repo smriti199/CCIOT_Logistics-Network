@@ -11,16 +11,20 @@ export default function Layout({ children }) {
 
   return (
     <div className="flex">
-      <div className="w-64 bg-white text-gray-800 p-6">
+      <div className="w-64 bg-white text-black p-6">
         <ul className="mt-8 space-y-4">
           <li className={isActive("/") ? "text-blue-500 font-bold" : ""}>
             <Link href="/">Dashboard</Link>
           </li>
-          <li className={isActive("/assets") ? "text-blue-500 font-bold" : ""}>
-            <Link href="/assets">Assets</Link>
-          </li>
+          
           <li className={isActive("/table") ? "text-blue-500 font-bold" : ""}>
             <Link href="/table">Table</Link>
+          </li>
+          <li className={isActive("/stats") ? "text-blue-500 font-bold" : ""}>
+            <Link href="/stats">Stats</Link>
+          </li>
+          <li className={isActive("/centralized") ? "text-blue-500 font-bold" : ""}>
+            <Link href="/centralized">Centralized</Link>
           </li>
         </ul>
       </div>
