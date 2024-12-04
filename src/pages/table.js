@@ -3,29 +3,52 @@ import Layout from "../components/Layout";
 
 export default function Table() {
   const [assets, setAssets] = useState([]);
-  const [selectedDatabase, setSelectedDatabase] = useState("us"); // Default to 'us' database
+  const [selectedDatabase, setSelectedDatabase] = useState("us"); // Default to US database
 
+  // Fetch assets based on selected database (us, sg, or centralized)
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch(`/api/assets/${selectedDatabase}`);
-      const data = await response.json();
-      setAssets(data);
+      // Clear the assets before loading the new set
+      setAssets([]);
+
+      const url =
+        selectedDatabase === "us"
+          ? "/api/assets/us"
+          : selectedDatabase === "sg"
+          ? "/api/assets/sg"
+          : "/api/assets/centralized";
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setAssets(data); // Set the fetched data into the state
+      } catch (error) {
+        console.error("Error fetching assets:", error);
+      }
     };
 
     fetchAssets();
-  }, [selectedDatabase]);
+  }, [selectedDatabase]); // Re-fetch assets when selectedDatabase changes
 
+  // Handle database selection change
   const handleDatabaseChange = (event) => {
     setSelectedDatabase(event.target.value);
   };
-  
-  const resetDatabase = async (db) => {
-    const response = await fetch(`/api/resetassets/${db}`, {
-      method: 'POST', // Use POST for reset action
-    });
 
-    const result = await response.json();
-    alert(result.message); // Show success/failure message
+  // Handle reset for the selected database
+  const handleReset = async (endpoint) => {
+    try {
+      const response = await fetch(endpoint, { method: "POST" });
+      if (response.ok) {
+        // Reset successful, re-fetch assets
+        const updatedResponse = await fetchAssets();
+        setAssets(updatedResponse);
+      } else {
+        console.error("Failed to reset database.");
+      }
+    } catch (error) {
+      console.error("Error during reset:", error);
+    }
   };
 
   return (
@@ -37,45 +60,44 @@ export default function Table() {
         {/* Reset Buttons */}
         <div className="mb-4">
           <button
-            onClick={() => resetDatabase("sg")}
-            className="px-4 py-2 bg-red-200 text-gray-800 rounded mr-2"
-          >
-            Reset SG Database
-          </button>
-          <button
-            onClick={() => resetDatabase("us")}
-            className="px-4 py-2 bg-red-200 text-gray-800 rounded mr-2"
+            className="mr-4 px-4 py-2  bg-red-200 text-gray-800 rounded"
+            onClick={() => handleReset("/api/resetassets/us")}
           >
             Reset US Database
           </button>
           <button
-            onClick={() => resetDatabase("centralized")}
-            className="px-4 py-2 bg-red-200 text-gray-800 rounded"
+            className="mr-4 px-4 py-2  bg-red-200 text-gray-800 rounded"
+            onClick={() => handleReset("/api/resetassets/sg")}
+          >
+            Reset SG Database
+          </button>
+          <button
+            className="px-4 py-2  bg-red-200 text-gray-800 rounded"
+            onClick={() => handleReset("/api/resetassets/centralized")}
           >
             Reset Centralized Database
           </button>
         </div>
-
-        {/* Dropdown to choose between regional and centralized databases */}
-        <div className="mb-4">
-          <select
-            value={selectedDatabase}
-            onChange={handleDatabaseChange}
-            className="px-4 py-2 bg-blue-100 text-gray-800 rounded"
-          >
-            <option value="us">US Database</option>
-            <option value="sg">SG Database</option>
-            <option value="centralized">Centralized Database</option>
-          </select>
-        </div>
+        
+        {/* Dropdown to choose between us, sg, and centralized databases */}
+        <select
+          value={selectedDatabase}
+          onChange={handleDatabaseChange}
+          className="mb-4 p-2 bg-white rounded text-gray-800"
+        >
+          <option value="us">US Database</option>
+          <option value="sg">SG Database</option>
+          <option value="centralized">Centralized Database</option>
+        </select>
 
 
-        {/* Table Display */}
+        {/* Card-style container for table */}
         <div className="overflow-x-auto bg-white rounded-lg shadow-lg p-4">
           <table className="min-w-full table-auto text-left border-collapse">
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-4 py-2">Asset ID</th>
+                {/* Conditionally render location columns */}
                 {selectedDatabase !== "centralized" && (
                   <>
                     <th className="px-4 py-2">Longitude</th>
@@ -96,10 +118,19 @@ export default function Table() {
                 assets.map((asset) => (
                   <tr key={asset.vehicle_id} className="border-b text-gray-800">
                     <td className="px-4 py-3">{asset.vehicle_id}</td>
+                    {/* Conditionally render location columns */}
                     {selectedDatabase !== "centralized" && (
                       <>
-                        <td className="px-4 py-3">{JSON.parse(asset.location)?.longitude || "N/A"}</td>
-                        <td className="px-4 py-3">{JSON.parse(asset.location)?.latitude || "N/A"}</td>
+                        <td className="px-4 py-3">
+                          {asset.location && typeof asset.location === 'string' && asset.location !== "undefined"
+                            ? JSON.parse(asset.location)?.longitude || "N/A"
+                            : "N/A"}
+                        </td>
+                        <td className="px-4 py-3">
+                          {asset.location && typeof asset.location === 'string' && asset.location !== "undefined"
+                            ? JSON.parse(asset.location)?.latitude || "N/A"
+                            : "N/A"}
+                        </td>
                         <td className="px-4 py-3">{asset.export === "true" ? "Exported" : "Not Exported"}</td>
                       </>
                     )}
