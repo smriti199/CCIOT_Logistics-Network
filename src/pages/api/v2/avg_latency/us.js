@@ -1,12 +1,11 @@
 import mysql from 'mysql2';
 
-// Create a MySQL connection pool for the centralized database (centralized_v1, centralized_v2)
 const pool = mysql.createPool({
-  host: 'a9ce700e2283447668b04449a19ba784-889059d6801beaad.elb.ap-southeast-1.amazonaws.com',
-  user: 'root',
-  password: 'xM2809@coolcat',
-  database: 'us_region_v2', // Use the correct centralized database
-  port: 80,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: 'us_region_v2',
+  port: process.env.DB_PORT,
   connectTimeout: 60000,
   waitForConnections: true,
   connectionLimit: 10,
@@ -15,14 +14,12 @@ const pool = mysql.createPool({
 
 export default async function handler(req, res) {
   try {
-    // Query to get the average latency
     pool.query('SELECT AVG(avg_latency) AS average_latency FROM vehicles_data', (error, results) => {
       if (error) {
         console.error('Error executing query:', error);
         return res.status(500).json({ error: 'Database query failed', details: error.message });
       }
 
-      // Return the average latency as a response
       res.status(200).json(results[0]);
     });
   } catch (error) {

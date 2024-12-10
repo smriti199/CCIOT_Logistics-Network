@@ -1,12 +1,11 @@
 import mysql from 'mysql2';
 
-// MySQL connection pool for Centralized data
 const pool = mysql.createPool({
-  host: 'a9ce700e2283447668b04449a19ba784-889059d6801beaad.elb.ap-southeast-1.amazonaws.com',
-  user: 'root',
-  password: 'xM2809@coolcat',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: 'centralized_v2',
-  port: 80,
+  port: process.env.DB_PORT,
   connectTimeout: 60000,
   waitForConnections: true,
   connectionLimit: 10,
@@ -15,7 +14,6 @@ const pool = mysql.createPool({
 
 export default async function handler(req, res) {
   try {
-    // Query to reset centralized vehicles_data
     pool.query('DELETE FROM vehicles_data', (error) => {
       if (error) {
         console.error('Error resetting Centralized data:', error);

@@ -5,9 +5,7 @@ export default function Table() {
   const [assets, setAssets] = useState([]);
   const [selectedDatabase, setSelectedDatabase] = useState("us"); // Default to US database
 
-  // Function to fetch assets based on selected database
   const fetchAssets = async () => {
-    // Clear the assets before loading the new set
     setAssets([]);
 
     const url =
@@ -20,28 +18,25 @@ export default function Table() {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      setAssets(data); // Set the fetched data into the state
+      setAssets(data); 
     } catch (error) {
       console.error("Error fetching assets:", error);
     }
   };
 
-  // Re-fetch assets whenever selectedDatabase changes
   useEffect(() => {
     fetchAssets();
   }, [selectedDatabase]);
 
-  // Handle database selection change
+ 
   const handleDatabaseChange = (event) => {
     setSelectedDatabase(event.target.value);
   };
 
-  // Handle reset for the selected database
   const handleReset = async (endpoint) => {
     try {
       const response = await fetch(endpoint, { method: "POST" });
       if (response.ok) {
-        // Reset successful, re-fetch assets
         fetchAssets();
       } else {
         console.error("Failed to reset database.");

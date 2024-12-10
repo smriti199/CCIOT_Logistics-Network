@@ -40,14 +40,14 @@ export default function Stats() {
     };
 
     fetchStatsV2();
-  }, [selectedDatabaseV2]); // Re-fetch stats for version 2 when selectedDatabaseV2 changes
+  }, [selectedDatabaseV2]); // Re-fetch stats when selectedDatabaseV2 changes
 
-  // Handle database selection change for version 1
+  //Handle database selection change for version 1
   const handleDatabaseChangeV1 = (event) => {
     setSelectedDatabaseV1(event.target.value);
   };
 
-  // Handle database selection change for version 2
+  // Handle database selection  change for version 2
   const handleDatabaseChangeV2 = (event) => {
     setSelectedDatabaseV2(event.target.value);
   };

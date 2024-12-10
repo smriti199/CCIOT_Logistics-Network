@@ -5,10 +5,9 @@ export default function Centralized() {
   const [assets, setAssets] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState("US"); // Default to US country
 
-  // Fetch centralized data based on selected country
   useEffect(() => {
     const fetchAssets = async () => {
-      const url = `/api/v1/assets/centralizedv2?country=${selectedCountry}`;
+      const url = `/api/v1s/assets/centralizedv2?country=${selectedCountry}`;
       try {
         const response = await fetch(url);
         const data = await response.json();
@@ -21,7 +20,6 @@ export default function Centralized() {
     fetchAssets();
   }, [selectedCountry]); // Re-fetch assets when selectedCountry changes
 
-  // Handle country selection change for centralized data
   const handleCountryChange = (event) => {
     setSelectedCountry(event.target.value);
   };

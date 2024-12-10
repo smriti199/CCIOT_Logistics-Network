@@ -11,7 +11,7 @@ export default function AssetCard({
   cumulative_latency,
   avg_latency
 }) {
-  // Parse the location string (assuming it's a JSON string)
+  // Parse the location string 
   let longitude = '';
   let latitude = '';
   try {
@@ -24,7 +24,7 @@ export default function AssetCard({
     latitude = 'N/A';
   }
 
-  // Handle motion and exportStatus as booleans (or at least ensure proper comparison)
+  // Handle motion and exportStatus as booleans 
   const motionStatus = motion === 'true' || motion === true ? 'Moving' : 'Stationary';
   const exportStatusText = exportStatus === 'true' || exportStatus === true ? 'Exported' : 'Not Exported';
 

@@ -7,7 +7,7 @@ export default function Assets() {
 
   useEffect(() => {
     const fetchAssets = async () => {
-      const response = await fetch("/api/assets"); // Always fetch from a standard API endpoint
+      const response = await fetch("/api/assets"); 
       const data = await response.json();
       setAssets(data);
     };
