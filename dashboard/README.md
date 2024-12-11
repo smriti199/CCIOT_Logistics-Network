@@ -40,6 +40,7 @@ Clone this repository to your local machine:
 ```bash
 git clone https://github.com/smriti199/CCIOT_Logistics-Network.git
 cd cciot-logistics-network
+cd dashboard
 ```
 
 ### Install dependencies
